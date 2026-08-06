@@ -683,5 +683,190 @@
   })();
 </script>
 
+<!-- ===== Chatbot flottant (Claude via Netlify Function) ===== -->
+<style>
+  #rk-chat-btn{position:fixed;bottom:24px;right:24px;z-index:200;width:58px;height:58px;border-radius:50%;background:var(--brass);border:none;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+  #rk-chat-btn:hover{transform:scale(1.06);}
+  #rk-chat-btn svg{width:26px;height:26px;}
+  #rk-chat-panel{
+    position:fixed;bottom:94px;right:24px;z-index:200;width:360px;max-width:calc(100vw - 32px);
+    height:500px;max-height:calc(100vh - 140px);
+    background:var(--ink-2);border:1px solid var(--line);border-radius:10px;
+    display:none;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);
+    font-family:'Inter',sans-serif;
+  }
+  #rk-chat-panel.open{display:flex;}
+  #rk-chat-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:var(--ink);}
+  #rk-chat-head .rk-title{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:15px;color:var(--paper);}
+  #rk-chat-head .rk-dot{width:8px;height:8px;background:var(--brass);border-radius:50%;animation:pulse 2.4s ease-in-out infinite;flex-shrink:0;}
+  #rk-chat-close{background:none;border:none;color:rgba(237,234,225,0.6);cursor:pointer;font-size:20px;line-height:1;padding:4px;}
+  #rk-chat-close:hover{color:var(--paper);}
+  #rk-chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+  .rk-msg{max-width:82%;padding:10px 13px;border-radius:12px;font-size:13.5px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;}
+  .rk-msg.user{align-self:flex-end;background:var(--brass);color:var(--ink);border-bottom-right-radius:3px;}
+  .rk-msg.bot{align-self:flex-start;background:var(--ink);color:var(--paper);border:1px solid var(--line);border-bottom-left-radius:3px;}
+  .rk-msg.err{align-self:flex-start;background:rgba(200,80,60,0.15);color:#e8a08f;border:1px solid rgba(200,80,60,0.3);}
+  #rk-typing{align-self:flex-start;display:flex;gap:4px;padding:10px 13px;}
+  #rk-typing span{width:6px;height:6px;background:rgba(237,234,225,0.5);border-radius:50%;animation:rkBlink 1.2s infinite ease-in-out;}
+  #rk-typing span:nth-child(2){animation-delay:.2s;}
+  #rk-typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes rkBlink{0%,80%,100%{opacity:.25;}40%{opacity:1;}}
+  #rk-chat-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:var(--ink);}
+  #rk-chat-input{flex:1;background:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:10px 12px;color:var(--paper);font-family:'Inter';font-size:13.5px;resize:none;max-height:90px;}
+  #rk-chat-input:focus{outline:none;border-color:var(--brass);}
+  #rk-chat-send{background:var(--brass);color:var(--ink);border:none;border-radius:6px;padding:0 16px;font-weight:600;cursor:pointer;font-size:13px;transition:.2s;}
+  #rk-chat-send:hover{background:var(--brass-hi);}
+  #rk-chat-send:disabled{opacity:.5;cursor:not-allowed;}
+  @media(max-width:480px){
+    #rk-chat-panel{right:16px;bottom:86px;width:calc(100vw - 32px);}
+    #rk-chat-btn{right:16px;bottom:16px;}
+  }
+</style>
+
+<button id="rk-chat-btn" aria-label="Discuter avec nous" title="Discuter avec nous">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#1B1D1F" d="M12 3C6.48 3 2 6.94 2 11.8c0 2.72 1.42 5.15 3.66 6.78-.12.99-.5 2.62-1.44 3.98a.5.5 0 00.58.76c2.06-.6 3.7-1.6 4.62-2.27.83.2 1.7.31 2.58.31 5.52 0 10-3.94 10-8.56C22 6.94 17.52 3 12 3z"/>
+  </svg>
+</button>
+
+<div id="rk-chat-panel" role="dialog" aria-label="Assistant Rouages IA">
+  <div id="rk-chat-head">
+    <div class="rk-title"><span class="rk-dot"></span><span id="rk-chat-title-text">Assistant Rouages IA</span></div>
+    <button id="rk-chat-close" aria-label="Fermer" type="button">✕</button>
+  </div>
+  <div id="rk-chat-body"></div>
+  <form id="rk-chat-form">
+    <textarea id="rk-chat-input" rows="1" placeholder="Écrivez votre message…"></textarea>
+    <button id="rk-chat-send" type="submit">Envoyer</button>
+  </form>
+</div>
+
+<script>
+(function(){
+  const CHAT_ENDPOINT = '/.netlify/functions/chat';
+  const btn = document.getElementById('rk-chat-btn');
+  const panel = document.getElementById('rk-chat-panel');
+  const closeBtn = document.getElementById('rk-chat-close');
+  const body = document.getElementById('rk-chat-body');
+  const form = document.getElementById('rk-chat-form');
+  const input = document.getElementById('rk-chat-input');
+  const sendBtn = document.getElementById('rk-chat-send');
+  const titleText = document.getElementById('rk-chat-title-text');
+
+  const STR = {
+    fr: {
+      greeting: "Bonjour 👋 Je suis l'assistant de Rouages IA. Posez-moi vos questions sur nos services ou nos prix !",
+      placeholder: "Écrivez votre message…",
+      send: "Envoyer",
+      title: "Assistant Rouages IA",
+      error: "Oups, une erreur est survenue. Réessayez ou écrivez-nous à rouages.ia@gmail.com.",
+      openLabel: "Discuter avec nous"
+    },
+    en: {
+      greeting: "Hi 👋 I'm the Rouages IA assistant. Ask me anything about our services or pricing!",
+      placeholder: "Type your message…",
+      send: "Send",
+      title: "Rouages IA Assistant",
+      error: "Oops, something went wrong. Try again or email us at rouages.ia@gmail.com.",
+      openLabel: "Chat with us"
+    }
+  };
+
+  function currentLang(){
+    return (document.documentElement.lang === 'en') ? 'en' : 'fr';
+  }
+
+  let history = [];
+  let opened = false;
+
+  function addMessage(role, text){
+    const div = document.createElement('div');
+    div.className = 'rk-msg ' + (role === 'user' ? 'user' : (role === 'err' ? 'err' : 'bot'));
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function showTyping(){
+    const t = document.createElement('div');
+    t.id = 'rk-typing';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    body.appendChild(t);
+    body.scrollTop = body.scrollHeight;
+  }
+  function hideTyping(){
+    const t = document.getElementById('rk-typing');
+    if (t) t.remove();
+  }
+
+  function applyLangUI(){
+    const s = STR[currentLang()];
+    input.placeholder = s.placeholder;
+    sendBtn.textContent = s.send;
+    titleText.textContent = s.title;
+    btn.setAttribute('aria-label', s.openLabel);
+    btn.setAttribute('title', s.openLabel);
+  }
+
+  btn.addEventListener('click', () => {
+    panel.classList.toggle('open');
+    applyLangUI();
+    if (!opened && panel.classList.contains('open')){
+      opened = true;
+      addMessage('bot', STR[currentLang()].greeting);
+    }
+    if (panel.classList.contains('open')) input.focus();
+  });
+  closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 90) + 'px';
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    addMessage('user', text);
+    history.push({ role: 'user', content: text });
+    input.value = '';
+    input.style.height = 'auto';
+    input.disabled = true;
+    sendBtn.disabled = true;
+    showTyping();
+
+    try {
+      const res = await fetch(CHAT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ messages: history, lang: currentLang() })
+      });
+      const data = await res.json();
+      hideTyping();
+      if (!res.ok || data.error){
+        addMessage('err', data.error || STR[currentLang()].error);
+      } else {
+        addMessage('bot', data.reply);
+        history.push({ role: 'assistant', content: data.reply });
+      }
+    } catch (err){
+      hideTyping();
+      addMessage('err', STR[currentLang()].error);
+    } finally {
+      input.disabled = false;
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
