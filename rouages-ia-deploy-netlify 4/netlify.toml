@@ -1,0 +1,15 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# Si ton site Netlify pointe déjà vers ce dossier comme "Base directory",
+# ce fichier suffit. Sinon, dans Netlify -> Site configuration -> Build & deploy,
+# règle "Base directory" sur "rouages-ia-deploy-netlify 4".
+
+[functions]
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "no-store"
