@@ -213,6 +213,20 @@
   .price-cta{width:100%;text-align:center;display:block;}
   .price-note{margin-top:36px;font-size:14px;color:rgba(237,234,225,0.55);text-align:center;}
 
+  .calc-wrap{background:var(--ink-2);border:1px solid var(--line);border-radius:8px;padding:50px 6vw;position:relative;overflow:hidden;}
+  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;max-width:1000px;margin:0 auto;}
+  .calc-field{margin-bottom:24px;}
+  .calc-field label{display:block;font-size:13px;color:rgba(237,234,225,0.6);margin-bottom:10px;}
+  .calc-field .val{color:var(--brass-hi);font-family:'JetBrains Mono';font-weight:600;}
+  .calc-field input[type="range"]{width:100%;accent-color:var(--brass);height:5px;cursor:pointer;}
+  .calc-result{background:var(--ink);border:1px solid rgba(184,130,61,0.3);border-radius:6px;padding:34px;text-align:center;}
+  .calc-result .label{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(237,234,225,0.5);margin-bottom:10px;}
+  .calc-result .amount{font-family:'Space Grotesk';font-size:44px;font-weight:700;color:var(--brass-hi);margin-bottom:6px;line-height:1;}
+  .calc-result .sub{font-size:13px;color:rgba(237,234,225,0.55);margin-bottom:24px;}
+  .calc-result .divider{height:1px;background:var(--line);margin:22px 0;}
+  .calc-result .savings{font-family:'Space Grotesk';font-size:30px;font-weight:700;color:var(--steel-light,#5fa393);margin-bottom:4px;}
+  @media(max-width:860px){.calc-grid{grid-template-columns:1fr;gap:30px;}}
+
   .faq-list{max-width:760px;}
   .faq-item{border-bottom:1px solid var(--line);}
   .faq-item:first-child{border-top:1px solid var(--line);}
@@ -282,6 +296,7 @@
   <nav><ul>
     <li><a href="#services" data-fr="Services" data-en="Services">Services</a></li>
     <li><a href="#apropos" data-fr="À propos" data-en="About">À propos</a></li>
+    <li><a href="#calculateur" data-fr="Calculateur" data-en="Calculator">Calculateur</a></li>
     <li><a href="#forfaits" data-fr="Forfaits" data-en="Pricing">Forfaits</a></li>
     <li><a href="#process" data-fr="Méthode" data-en="Process">Méthode</a></li>
     <li><a href="#faq" data-fr="FAQ" data-en="FAQ">FAQ</a></li>
@@ -354,6 +369,44 @@
     <div class="process-step">
       <span class="step-num mono">04</span>
       <div><h3 data-fr="Mise en marche" data-en="Launch">Mise en marche</h3><p data-fr="Déploiement, formation rapide, et ajustements selon l'usage réel." data-en="Deployment, quick training, and adjustments based on real usage.">Déploiement, formation rapide, et ajustements selon l'usage réel.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="calculateur">
+  <div class="section-head reveal-up">
+    <div class="eyebrow" data-fr="Calculateur" data-en="Calculator">Calculateur</div>
+    <h2 data-fr="Combien vos tâches manuelles vous coûtent réellement" data-en="What your manual tasks really cost you">Combien vos tâches manuelles vous coûtent réellement</h2>
+  </div>
+  <div class="calc-wrap reveal-up">
+    <div class="calc-grid">
+      <div>
+        <div class="calc-field">
+          <label data-fr="Heures par semaine sur des tâches répétitives" data-en="Hours per week on repetitive tasks">Heures par semaine sur des tâches répétitives</label>
+          <label><span id="calcHoursVal" class="val">10</span> <span data-fr="heures/semaine" data-en="hours/week">heures/semaine</span></label>
+          <input type="range" id="calcHours" min="1" max="40" value="10" oninput="updateCalc()">
+        </div>
+        <div class="calc-field">
+          <label data-fr="Nombre d'employés concernés" data-en="Number of employees involved">Nombre d'employés concernés</label>
+          <label><span id="calcEmployeesVal" class="val">1</span> <span data-fr="employé(s)" data-en="employee(s)">employé(s)</span></label>
+          <input type="range" id="calcEmployees" min="1" max="15" value="1" oninput="updateCalc()">
+        </div>
+        <div class="calc-field">
+          <label data-fr="Taux horaire moyen" data-en="Average hourly rate">Taux horaire moyen</label>
+          <label><span id="calcRateVal" class="val">25</span> $/h</label>
+          <input type="range" id="calcRate" min="15" max="100" value="25" step="5" oninput="updateCalc()">
+        </div>
+      </div>
+      <div class="calc-result">
+        <div class="label" data-fr="Coût mensuel estimé" data-en="Estimated monthly cost">Coût mensuel estimé</div>
+        <div class="amount" id="calcMonthlyCost">1 083 $</div>
+        <div class="sub" data-fr="en temps consacré à des tâches répétitives" data-en="in time spent on repetitive tasks">en temps consacré à des tâches répétitives</div>
+        <div class="divider"></div>
+        <div class="label" data-fr="Économie potentielle avec l'automatisation" data-en="Potential savings with automation">Économie potentielle avec l'automatisation</div>
+        <div class="savings" id="calcSavings">~ 650 $ / mois</div>
+        <div class="sub" data-fr="estimation basée sur 60% de réduction du temps manuel" data-en="estimate based on 60% reduction in manual time">estimation basée sur 60% de réduction du temps manuel</div>
+        <a href="#" class="btn-primary" style="width:100%;margin-top:24px;" data-cal-link="momenauto-ia-xogetm" data-cal-config='{"layout":"month_view"}'><span data-fr="Voir comment automatiser ça" data-en="See how to automate this">Voir comment automatiser ça</span></a>
+      </div>
     </div>
   </div>
 </section>
@@ -528,6 +581,7 @@
     });
     if (TITLES[lang]) document.title = TITLES[lang];
     try { localStorage.setItem('momenauto_lang', lang); } catch(e) {}
+    if (typeof updateCalc === 'function') updateCalc();
   }
   function detectLang(){
     try {
@@ -538,6 +592,29 @@
     return browserLang.startsWith('en') ? 'en' : 'fr';
   }
   setLang(detectLang());
+
+  /* Calculateur de leads */
+  function updateCalc(){
+    const hours = parseInt(document.getElementById('calcHours').value);
+    const employees = parseInt(document.getElementById('calcEmployees').value);
+    const rate = parseInt(document.getElementById('calcRate').value);
+
+    document.getElementById('calcHoursVal').textContent = hours;
+    document.getElementById('calcEmployeesVal').textContent = employees;
+    document.getElementById('calcRateVal').textContent = rate;
+
+    const weeksPerMonth = 4.33;
+    const monthlyCost = hours * employees * rate * weeksPerMonth;
+    const savings = monthlyCost * 0.6;
+
+    const lang = document.documentElement.lang === 'en' ? 'en' : 'fr';
+    const fmt = (n) => lang === 'en'
+      ? '$' + Math.round(n).toLocaleString('en-CA')
+      : Math.round(n).toLocaleString('fr-CA') + ' $';
+
+    document.getElementById('calcMonthlyCost').textContent = fmt(monthlyCost);
+    document.getElementById('calcSavings').textContent = '~ ' + fmt(savings) + (lang === 'en' ? ' / month' : ' / mois');
+  }
 
   /* FAQ accordion */
   document.querySelectorAll('.faq-q').forEach(btn => {
