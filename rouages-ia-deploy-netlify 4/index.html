@@ -227,6 +227,16 @@
   .calc-result .savings{font-family:'Space Grotesk';font-size:30px;font-weight:700;color:var(--steel-light,#5fa393);margin-bottom:4px;}
   @media(max-width:860px){.calc-grid{grid-template-columns:1fr;gap:30px;}}
 
+  .demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px;}
+  .demo-card{background:var(--ink-2);border:1px solid var(--line);border-radius:8px;overflow:hidden;transition:border-color .3s, transform .25s;}
+  .demo-card:hover{transform:translateY(-4px);border-color:rgba(184,130,61,0.35);}
+  .demo-visual{aspect-ratio:16/10;background:var(--ink);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);}
+  .demo-visual svg{width:100%;height:100%;}
+  .demo-info{padding:26px 28px 30px;}
+  .demo-badge{display:inline-block;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--steel);background:rgba(62,110,100,0.15);border:1px solid rgba(62,110,100,0.4);padding:4px 10px;border-radius:20px;margin-bottom:14px;}
+  .demo-info h3{font-size:19px;margin-bottom:10px;}
+  .demo-info p{font-size:14px;color:rgba(237,234,225,0.6);line-height:1.55;}
+
   .faq-list{max-width:760px;}
   .faq-item{border-bottom:1px solid var(--line);}
   .faq-item:first-child{border-top:1px solid var(--line);}
@@ -299,6 +309,7 @@
     <li><a href="#calculateur" data-fr="Calculateur" data-en="Calculator">Calculateur</a></li>
     <li><a href="#forfaits" data-fr="Forfaits" data-en="Pricing">Forfaits</a></li>
     <li><a href="#process" data-fr="Méthode" data-en="Process">Méthode</a></li>
+    <li><a href="#demos" data-fr="Démos" data-en="Demos">Démos</a></li>
     <li><a href="#faq" data-fr="FAQ" data-en="FAQ">FAQ</a></li>
     <li><a href="#contact" data-fr="Contact" data-en="Contact">Contact</a></li>
   </ul></nav>
@@ -459,6 +470,106 @@
   </div>
 </section>
 
+
+<section id="demos">
+  <div class="section-head reveal-up">
+    <div class="eyebrow" data-fr="Démos" data-en="Demos">Démos</div>
+    <h2 data-fr="Concepts d'automatisation" data-en="Automation concepts">Concepts d'automatisation</h2>
+    <p style="font-size:14px;color:rgba(237,234,225,0.5);margin-top:14px;max-width:560px;" data-fr="Exemples de workflows conçus pour illustrer notre approche — concepts de démonstration, non affiliés à un client réel." data-en="Example workflows designed to illustrate our approach — demonstration concepts, not affiliated with a real client.">Exemples de workflows conçus pour illustrer notre approche — concepts de démonstration, non affiliés à un client réel.</p>
+  </div>
+  <div class="demo-grid reveal-up">
+
+    <div class="demo-card">
+      <div class="demo-visual">
+        <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+          <line x1="70" y1="125" x2="150" y2="70" stroke="#3E6E64" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="70" y1="125" x2="150" y2="180" stroke="#3E6E64" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="150" y1="70" x2="250" y2="125" stroke="#B8823D" stroke-width="1.5"/>
+          <line x1="150" y1="180" x2="250" y2="125" stroke="#B8823D" stroke-width="1.5"/>
+          <line x1="250" y1="125" x2="340" y2="125" stroke="#B8823D" stroke-width="1.5"/>
+          <circle cx="70" cy="125" r="22" fill="#26282B" stroke="#D9A85C" stroke-width="1.5"/>
+          <circle cx="70" cy="125" r="6" fill="#D9A85C"/>
+          <circle cx="150" cy="70" r="16" fill="#26282B" stroke="#3E6E64" stroke-width="1.5"/>
+          <circle cx="150" cy="180" r="16" fill="#26282B" stroke="#3E6E64" stroke-width="1.5"/>
+          <circle cx="250" cy="125" r="24" fill="#B8823D"/>
+          <path d="M 240 125 L 248 133 L 262 117" stroke="#1B1D1F" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="340" cy="125" r="18" fill="#26282B" stroke="#D9A85C" stroke-width="1.5"/>
+          <path d="M 332 125 L 348 125 M 342 119 L 348 125 L 342 131" stroke="#D9A85C" stroke-width="1.5" fill="none"/>
+          <text x="70" y="165" text-anchor="middle" fill="rgba(237,234,225,0.45)" font-family="JetBrains Mono" font-size="10">CANDIDATS</text>
+          <text x="250" y="168" text-anchor="middle" fill="rgba(237,234,225,0.45)" font-family="JetBrains Mono" font-size="10">QUALIFICATION</text>
+          <text x="340" y="160" text-anchor="middle" fill="rgba(237,234,225,0.45)" font-family="JetBrains Mono" font-size="10">RELANCE</text>
+        </svg>
+      </div>
+      <div class="demo-info">
+        <span class="demo-badge" data-fr="Démo · Concept" data-en="Demo · Concept">Démo · Concept</span>
+        <h3 data-fr="Suivi et qualification de candidats" data-en="Candidate tracking and qualification">Suivi et qualification de candidats</h3>
+        <p data-fr="Workflow conceptuel pour cabinets de recrutement : les candidats entrants sont automatiquement qualifiés, puis relancés après un délai défini sans intervention manuelle." data-en="Conceptual workflow for recruitment firms: incoming candidates are automatically qualified, then followed up after a set delay without manual intervention.">Workflow conceptuel pour cabinets de recrutement : les candidats entrants sont automatiquement qualifiés, puis relancés après un délai défini sans intervention manuelle.</p>
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <div class="demo-visual">
+        <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+          <line x1="80" y1="90" x2="200" y2="125" stroke="#3E6E64" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="200" y1="125" x2="320" y2="70" stroke="#B8823D" stroke-width="1.5"/>
+          <line x1="200" y1="125" x2="320" y2="125" stroke="#B8823D" stroke-width="1.5"/>
+          <line x1="200" y1="125" x2="320" y2="180" stroke="#B8823D" stroke-width="1.5"/>
+          <circle cx="80" cy="90" r="18" fill="#26282B" stroke="#3E6E64" stroke-width="1.5"/>
+          <path d="M 72 90 a 8 8 0 1 1 16 0" fill="none" stroke="#3E6E64" stroke-width="1.5"/>
+          <circle cx="80" cy="86" r="4" fill="#3E6E64"/>
+          <circle cx="200" cy="125" r="26" fill="#B8823D"/>
+          <rect x="188" y="115" width="24" height="18" rx="4" fill="#1B1D1F"/>
+          <circle cx="196" cy="124" r="2" fill="#D9A85C"/>
+          <circle cx="204" cy="124" r="2" fill="#D9A85C"/>
+          <circle cx="320" cy="70" r="13" fill="#26282B" stroke="#D9A85C" stroke-width="1.5"/>
+          <circle cx="320" cy="125" r="13" fill="#26282B" stroke="#D9A85C" stroke-width="1.5"/>
+          <circle cx="320" cy="180" r="13" fill="#26282B" stroke="#D9A85C" stroke-width="1.5"/>
+          <text x="80" y="122" text-anchor="middle" fill="rgba(237,234,225,0.45)" font-family="JetBrains Mono" font-size="10">VISITEUR</text>
+          <text x="200" y="168" text-anchor="middle" fill="rgba(237,234,225,0.45)" font-family="JetBrains Mono" font-size="10">CHATBOT IA</text>
+          <text x="355" y="74" text-anchor="middle" fill="rgba(237,234,225,0.4)" font-family="JetBrains Mono" font-size="9">FAQ</text>
+          <text x="358" y="129" text-anchor="middle" fill="rgba(237,234,225,0.4)" font-family="JetBrains Mono" font-size="9">RDV</text>
+          <text x="365" y="184" text-anchor="middle" fill="rgba(237,234,225,0.4)" font-family="JetBrains Mono" font-size="9">HUMAIN</text>
+        </svg>
+      </div>
+      <div class="demo-info">
+        <span class="demo-badge" data-fr="Démo · Concept" data-en="Demo · Concept">Démo · Concept</span>
+        <h3 data-fr="Chatbot de réponse pour cabinet professionnel" data-en="Response chatbot for professional firms">Chatbot de réponse pour cabinet professionnel</h3>
+        <p data-fr="Workflow conceptuel où un agent conversationnel répond aux questions fréquentes, prend un rendez-vous automatiquement, ou redirige vers une personne selon la demande." data-en="Conceptual workflow where a conversational agent answers frequent questions, books an appointment automatically, or redirects to a person based on the request.">Workflow conceptuel où un agent conversationnel répond aux questions fréquentes, prend un rendez-vous automatiquement, ou redirige vers une personne selon la demande.</p>
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <div class="demo-visual">
+        <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+          <line x1="65" y1="125" x2="160" y2="125" stroke="#3E6E64" stroke-width="1.5"/>
+          <line x1="160" y1="125" x2="250" y2="125" stroke="#B8823D" stroke-width="1.5"/>
+          <line x1="250" y1="125" x2="340" y2="80" stroke="#B8823D" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="250" y1="125" x2="340" y2="170" stroke="#B8823D" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <circle cx="65" cy="125" r="18" fill="#26282B" stroke="#3E6E64" stroke-width="1.5"/>
+          <rect x="140" y="100" width="40" height="50" rx="4" fill="#26282B" stroke="#D9A85C" stroke-width="1.5"/>
+          <line x1="148" y1="112" x2="172" y2="112" stroke="#D9A85C" stroke-width="1.5"/>
+          <line x1="148" y1="122" x2="172" y2="122" stroke="#D9A85C" stroke-width="1.5"/>
+          <line x1="148" y1="132" x2="164" y2="132" stroke="#D9A85C" stroke-width="1.5"/>
+          <circle cx="250" cy="125" r="24" fill="#B8823D"/>
+          <path d="M250 113 v12 l9 5" stroke="#1B1D1F" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="340" cy="80" r="14" fill="#26282B" stroke="#D9A85C" stroke-width="1.5"/>
+          <circle cx="340" cy="170" r="14" fill="#26282B" stroke="#D9A85C" stroke-width="1.5"/>
+          <text x="65" y="162" text-anchor="middle" fill="rgba(237,234,225,0.45)" font-family="JetBrains Mono" font-size="10">VISITEUR</text>
+          <text x="160" y="168" text-anchor="middle" fill="rgba(237,234,225,0.45)" font-family="JetBrains Mono" font-size="10">FORMULAIRE</text>
+          <text x="250" y="168" text-anchor="middle" fill="rgba(237,234,225,0.45)" font-family="JetBrains Mono" font-size="10">CALENDRIER</text>
+          <text x="373" y="84" text-anchor="middle" fill="rgba(237,234,225,0.4)" font-family="JetBrains Mono" font-size="9">CONFIRM.</text>
+          <text x="368" y="174" text-anchor="middle" fill="rgba(237,234,225,0.4)" font-family="JetBrains Mono" font-size="9">RAPPEL</text>
+        </svg>
+      </div>
+      <div class="demo-info">
+        <span class="demo-badge" data-fr="Démo · Concept" data-en="Demo · Concept">Démo · Concept</span>
+        <h3 data-fr="Réservation automatisée avec rappels" data-en="Automated booking with reminders">Réservation automatisée avec rappels</h3>
+        <p data-fr="Workflow conceptuel : un visiteur remplit un formulaire, un créneau est réservé automatiquement, puis une confirmation et un rappel sont envoyés sans intervention." data-en="Conceptual workflow: a visitor fills out a form, a slot is booked automatically, then a confirmation and reminder are sent without intervention.">Workflow conceptuel : un visiteur remplit un formulaire, un créneau est réservé automatiquement, puis une confirmation et un rappel sont envoyés sans intervention.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <section id="faq">
   <div class="section-head reveal-up">
